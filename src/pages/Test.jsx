@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import TestForm from "../components/TestForm";
-import { calculateMBTI, mbtiDescriptions } from "../utils/mbtiCalculator";
-import { createTestResult } from "../api/testResults";
+// import { calculateMBTI, mbtiDescriptions } from "../utils/mbtiCalculator";
+// import { createTestResult } from "../api/testResults";
 import { useNavigate } from "react-router-dom";
 
 const TestPage = ({ user }) => {

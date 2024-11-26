@@ -1,9 +1,11 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import Home from "../pages/Home";
+import Login from "../pages/Login";
 import Signup from "../pages/Signup";
 import Profile from "../pages/Profile";
 import Test from "../pages/Test";
 import TestResult from "../pages/TestResult";
+import Layout from "../components/Layout";
 
 const Router = () => {
   return (
@@ -11,7 +13,7 @@ const Router = () => {
       <Routes>
         <Route path="/" element={<Layout />}>
           {/* Routs */}
-          <Route path="/" element={<Home />} />
+          <Route path="/home" element={<Home />} />
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<Signup />} />
           <Route path="/profile" element={<Profile />} />
