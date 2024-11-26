@@ -1,15 +1,25 @@
-import { Outlet } from "react-router-dom";
+import { Outlet, useNavigate } from "react-router-dom";
 import styled from "styled-components";
 
 const Layout = () => {
+  const navigate = useNavigate();
+
+  const NavigateHome = () => {
+    navigate("/");
+  };
+
+  const NavigateLogin = () => {
+    navigate("/login");
+  };
+
   return (
     <>
       <StHeader>
         <NavBtnWrap>
-          <NavBtn type="button" onClick={""}>
+          <NavBtn type="button" onClick={NavigateHome}>
             Home
           </NavBtn>
-          <NavBtn type="button" onClick={""}>
+          <NavBtn type="button" onClick={NavigateLogin}>
             Login
           </NavBtn>
         </NavBtnWrap>
@@ -32,6 +42,7 @@ const StHeader = styled.header`
   background-color: #fff;
   box-shadow: 0 8px 16px rgba(180, 180, 180, 0.3);
   position: fixed;
+  z-index: 1;
 `;
 const NavBtnWrap = styled.div`
   width: 70%;
@@ -65,7 +76,7 @@ const StMain = styled.main`
   width: 100%;
   height: 100vh;
   margin: 0 auto;
-  background: linear-gradient(45deg, #fff, #d7f3fb);  
+  background: linear-gradient(45deg, #fff, #d7f3fb);
 `;
 
 const ContentWrap = styled.div`
@@ -73,5 +84,5 @@ const ContentWrap = styled.div`
   height: 100%;
   max-width: 1200px;
   margin: 0 auto;
-  padding: 50px;  
+  padding: 50px;
 `;
