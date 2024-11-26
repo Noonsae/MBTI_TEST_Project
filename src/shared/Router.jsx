@@ -6,19 +6,25 @@ import Profile from "../pages/Profile";
 import Test from "../pages/Test";
 import TestResult from "../pages/TestResult";
 import Layout from "../components/Layout";
+import ProtectedRoute from "../components/ProtectedRoute";
+import { useState } from "react";
 
 const Router = () => {
+  const [user, setUer] = useState(null);
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/" element={<Layout />}>
+        <Route element={<Layout />}>
           {/* Routs */}
-          <Route path="/home" element={<Home />} />
+          <Route path="/" element={<Home />} />
           <Route path="/login" element={<Login />} />
-          <Route path="/signup" element={<Signup />} />
-          <Route path="/profile" element={<Profile />} />
-          <Route path="/test" element={<Test />} />
-          <Route path="/result" element={<TestResult />} />
+          <Route path="/signup" element={<Signup />}>
+          {/* ProtectedRoute */}
+            <Route element={<ProtectedRoute user={user}  />} />
+            <Route path="/profile" element={<Profile />} />
+            <Route path="/test" element={<Test />} />
+            <Route path="/result" element={<TestResult />} />
+          </Route>
         </Route>
       </Routes>
     </BrowserRouter>
