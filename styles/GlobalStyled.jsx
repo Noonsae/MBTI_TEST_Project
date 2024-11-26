@@ -8,6 +8,7 @@ export const GlobalStyle = createGlobalStyle`
     box-sizing: border-box;
     font-size: 10px;
     color: #111;
+    user-select: none;
   }
 
   
