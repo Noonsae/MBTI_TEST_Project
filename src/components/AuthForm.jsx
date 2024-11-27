@@ -1,9 +1,8 @@
-import React, { useContext, useState } from "react";
-import { AuthContext } from "../context/AuthContext";
+import{ useState } from "react";
 import styled from "styled-components";
 
 const AuthForm = ({ mode, onSubmit }) => {
-  const { setUser } = useContext(AuthContext);
+  
   const [formData, setFormData] = useState({
     id: "",
     password: "",
@@ -47,13 +46,11 @@ const AuthForm = ({ mode, onSubmit }) => {
 
     for (const key in formData) {
       if (validate(key, formData[key])) {
-        alert("입력한 정보에 오류가 있습니다. 다시 확인해주세요.");
-        return;
+        alert("입력한 정보에 오류가 있습니다. 다시 확인해주세요.");        
       }
     }
-
     // 유효성 검사를 통과하면 onSubmit 호출
-    onSubmit(formData);
+    return onSubmit(formData);
   };
 
   return (
