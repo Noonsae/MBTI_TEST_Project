@@ -3,9 +3,9 @@ import axios from "axios";
 const API_URL = "https://moneyfulpublicpolicy.co.kr";
 
 // 회원가입 함수
-export const signUp = async (userData) => {
+export const register = async (userData) => {
   try {
-    const response = await axios.post(`${API_URL}/signUp`, userData);
+    const response = await axios.post(`${API_URL}/register`, userData);
     return response.data;
   } catch (error) {
     console.error("회원가입 오류:", error);
