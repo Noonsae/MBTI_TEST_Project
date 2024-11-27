@@ -1,35 +1,33 @@
 import { Outlet, useNavigate } from "react-router-dom";
 import styled from "styled-components";
+import TopNavBtn from "./topNavBtn";
 
 const Layout = () => {
+
   const navigate = useNavigate();
 
   const NavigateHome = () => {
     navigate("/");
   };
 
-  const NavigateLogin = () => {
-    navigate("/login");
-  };
-
   return (
     <>
       <StHeader>
         <NavBtnWrap>
-          <NavBtn type="button" onClick={NavigateHome}>
+          <HomeBtn type="button" onClick={NavigateHome}>
             Home
-          </NavBtn>
-          <NavBtn type="button" onClick={NavigateLogin}>
-            Login
-          </NavBtn>
+          </HomeBtn>
+          <TopNavBtn />
         </NavBtnWrap>
       </StHeader>
+
       <StMain>
         <ContentWrap>
           {/* 라우트에 해당하는 컴포넌트가 렌더링 */}
           <Outlet />
         </ContentWrap>
       </StMain>
+
       <StFooter>
         <p>Copyright @ 2024 NoonSae All rights reserved.</p>
       </StFooter>
@@ -48,6 +46,7 @@ const StHeader = styled.header`
 `;
 const NavBtnWrap = styled.div`
   width: 70%;
+  max-width: 1200px;
   height: 80px;
 
   margin: 0 auto;
@@ -57,12 +56,12 @@ const NavBtnWrap = styled.div`
   justify-content: space-between;
   align-items: center;
 
-  font-size: 26px;
+  font-size: 21px;
   font-weight: normal;
   color: #3695d5;
 `;
 
-const NavBtn = styled.button`
+const HomeBtn = styled.button`
   padding: 21px;
 
   &:first-child {
