@@ -1,6 +1,6 @@
 import React, { useContext } from "react";
 import { useNavigate, Link } from "react-router-dom";
-import { signUp } from "../api/auth";
+import { register } from "../api/auth";
 import AuthForm from "../components/AuthForm";
 import styled from "styled-components";
 
@@ -9,9 +9,8 @@ const Signup = () => {
 
   const handleSignup = async (FormData) => {
 
-
     try {
-      const data = await signUp(FormData);
+      const data = await register(FormData);
       console.log(data); // 서버 응답 확인
       if (data.success) {
         alert("회원가입이 완료되었습니다.");
