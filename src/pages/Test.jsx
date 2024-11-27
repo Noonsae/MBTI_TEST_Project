@@ -1,40 +1,43 @@
 import React, { useState } from "react";
-import { questions } from "../data/questions";
-import NavBtn from "../components/NavBtn";
+import styled from "styled-components";
+import TestForm from "../components/TestForm";
 
 const Test = () => {
-  const [answer, setAnswer] = useState({});
-
-  const handleAnswer = (question_Id, data) => {
-    setAnswer((prev) => ({
-      ...prev,
-      [question_Id]: data,
-    }));
-  };
-
+  
   return (
-    <div>
-      <h2>MBTI 테스트</h2>
-      <div>
-        {questions.map((item) => (
-          <div key={item.id}>
-            <p>
-              {item.id}. {item.question}
-            </p>
-            {item.options.map((option) => (
-              <button
-                key={option}
-                onClick={() => handleAnswer(item.id, option)}
-              >
-                {option}
-              </button>
-            ))}
-          </div>
-        ))}
-      </div>
-      <NavBtn to="/results">제출하기</NavBtn>
-    </div>
+    <TestContainer>
+      <QuestionContainer>
+        <h2>MBTI 테스트</h2>
+        <TestForm />
+      </QuestionContainer>
+    </TestContainer>
   );
 };
 
 export default Test;
+
+// 스타일 컴포넌트 정의
+const TestContainer = styled.div`
+  width: 60%;
+  height: 50vh;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+`;
+
+const QuestionContainer = styled.div`
+  width: 100%;
+  max-width: 700px;
+  & h2 {
+    display: none;
+  }
+`;
+
+
