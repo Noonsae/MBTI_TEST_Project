@@ -5,28 +5,33 @@ import styled from "styled-components";
 const AuthForm = ({ mode, onSubmit }) => {
   const { setUser } = useContext(MyContext);
   const [formData, setFormData] = useState({
-    user_id: "",
-    user_password: "",
-    user_name: "",
+    id: "",
+    password: "",
+    nickname: "",
   });
-
+  
+  const [ checkPassword, setCheckPassword ] = useState("");
   const [errors, setErrors] = useState({});
+
+  const onChangeCheckPassword = (e) => {setCheckPassword(e.target.value)};
 
   const validate = (name, value) => {
     let error = "";
-    if (name === "user_id" && !value) {
-      error = "아이디를 입력해주세요.";
-    } else if (name === "user_password" && value.length < 6) {
-      error = "비밀번호는 최소 6자 이상이어야 합니다.";
-    } else if (name === "user_name" && mode === "signup" && !value) {
+    if (name === "nickname" && mode === "signup" && !value) {
       error = "별명을 입력해주세요.";
+    } else if (name === "id" && !value) {
+      error = "아이디를 입력해주세요.";
+    } else if (name === "password" && value.length < 6) {
+      error = "비밀번호는 최소 6자 이상이어야 합니다.";
+    } else if (name === "checkPassword" && mode === "signup") {
+      error = "입력하신 비밀번호와 다릅니다. 다시 확인해주세요.";
     }
     return error;
   };
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setFormData({ ...formData, [name]: value });
+    setFormData((prev) => ({ ...prev, [name]: value }));
 
     // 실시간 유효성 검사 실행
     const error = validate(name, value);
@@ -35,6 +40,8 @@ const AuthForm = ({ mode, onSubmit }) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+
+    console.log(formData);
 
     for (const key in formData) {
       if (validate(key, formData[key])) {
@@ -50,34 +57,57 @@ const AuthForm = ({ mode, onSubmit }) => {
   return (
     <LoginForm onSubmit={handleSubmit}>
       {mode === "signup" && (
+        <div>
+          <InputField
+            type="text"
+            name="nickname"
+            value={formData.nickname}
+            onChange={handleChange}
+            placeholder="별명을 입력해주세요."
+            required
+          />
+          {errors.nickname && <ErrorMessage>{errors.nickname}</ErrorMessage>}
+        </div>
+      )}
+      <div>
         <InputField
           type="text"
-          name="user_name"
-          value={formData.user_name}
+          name="id"
+          value={formData.id}
           onChange={handleChange}
-          placeholder="별명을 적어주세요."
+          placeholder="아이디를 입력해주세요."
+          autoComplete="current-id"
           required
         />
+        {errors.id && <ErrorMessage>{errors.id}</ErrorMessage>}
+      </div>
+      <div>
+        <InputField
+          type="password"
+          name="password"
+          value={formData.password}
+          onChange={handleChange}
+          placeholder="비밀번호를 입력해주세요."
+          autoComplete="current-password"
+          required
+        />
+        {errors.password && <ErrorMessage>{errors.password} </ErrorMessage>}
+      </div>
+      {mode === "signup" && (
+        <div>
+          <InputField
+            type="password"
+            name="checkPassword"
+            value={checkPassword}
+            onChange={onChangeCheckPassword}
+            placeholder="비밀번호를 한번 더 입력해주세요."
+            required
+          />
+          {errors.checkPassword && (
+            <ErrorMessage>{errors.checkPassword}</ErrorMessage>
+          )}
+        </div>
       )}
-      <InputField
-        type="text"
-        name="user_id"
-        value={formData.user_id}
-        onChange={handleChange}
-        placeholder="아이디를 적어주세요."
-        autoComplete="current-password"
-        required
-      />
-      <InputField
-        type="password"
-        name="user_password"
-        value={formData.user_password}
-        onChange={handleChange}
-        placeholder="비밀번호를 적어주세요."
-        autoComplete="current-password"
-        required
-      />
-      {errors && <ErrorMessage>errors</ErrorMessage>}
       <LoginBtn>{mode === "signup" ? "회원가입" : "로그인"}</LoginBtn>
     </LoginForm>
   );
@@ -87,10 +117,9 @@ export default AuthForm;
 
 const LoginForm = styled.form`
   width: 100%;
-  height: 70%;
 
-  margin: 30px 0;
-  padding: 30px;
+  margin: 30px 0 40px;
+  padding: 50px 30px;
 
   display: flex;
   flex-direction: column;
@@ -105,11 +134,11 @@ const LoginForm = styled.form`
 
 const InputField = styled.input`
   width: 100%;
-  padding: 12px;
-  margin-bottom: 15px;
-  border: 1px solid #dcdcdc;
+  margin-bottom: 30px;
+  padding: 13px;
+  border: 1px solid #ccc;
   border-radius: 8px;
-  font-size: 1rem;
+  font-size: 16px;
   outline: none;
 
   &:focus {
@@ -129,14 +158,13 @@ const LoginBtn = styled.button`
   transition: 0.3s;
 
   &:hover {
-    background-color: #1c7cbb;
+    background-color: #2286c9;
   }
 `;
 
 const ErrorMessage = styled.p`
   color: #ff6b6b;
-  font-size: 16px;
-  margin-top: -10px;
-  margin-bottom: 15px;
+  font-size: 13px;
+  margin: -20px 5px 30px;
   text-align: left;
 `;
