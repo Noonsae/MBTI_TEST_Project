@@ -2,38 +2,38 @@ import { useContext } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { login } from "../api/auth";
 import AuthForm from "../components/AuthForm";
-import { MyContext } from "../context/MyContext";
+import { AuthContext } from "../context/AuthContext";
 import styled from "styled-components";
 
 const Login = () => {
-  const { setUser } = useContext(MyContext);
+  const { setUser } = useContext(AuthContext);
   const navigate = useNavigate();
 
- const handleLogin = async (formData) => {
-   const { nickname, ...userWithoutNickname } = formData;
-   console.log(userWithoutNickname); // { id: "User ID", password: "User password" }
-   console.log(nickname); // { nickname: "User nickname" }
+  const handleLogin = async (formData) => {
+    const { nickname, ...userWithoutNickname } = formData;
+    console.log(userWithoutNickname); // { id: "User ID", password: "User password" }
+    console.log(nickname); // { nickname: "User nickname" }
 
-   try {
-     const data = await login(userWithoutNickname);
-     console.log(data);
+    try {
+      const data = await login(userWithoutNickname);
+      console.log(data);
 
-     // 성공 여부 검사 및 얼리 리턴 적용
-     if (!data.success) {
-       alert("로그인에 실패했습니다.");
-       return; // 로그인 실패 시 함수 종료
-     }
+      // 성공 여부 검사 및 얼리 리턴 적용
+      if (!data.success) {
+        alert("로그인에 실패했습니다.");
+        return; // 로그인 실패 시 함수 종료
+      }
 
-     // 로그인 성공 시 로직
-     console.log(data.accessToken);
-     setUser(data);
-     localStorage.setItem("accessToken", data.accessToken);
-     navigate("/");
-   } catch (error) {
-     alert("로그인에 실패했습니다. 아이디와 비밀번호를 확인해주세요.");
-     return; // 오류 발생 시 함수 종료
-   }
- };
+      // 로그인 성공 시 로직
+      console.log(data.accessToken);
+      setUser(data);
+      localStorage.setItem("accessToken", data.accessToken);
+      navigate("/");
+    } catch (error) {
+      alert("로그인에 실패했습니다. 아이디와 비밀번호를 확인해주세요.");
+      return; // 오류 발생 시 함수 종료
+    }
+  };
 
   return (
     <LoginContainer>

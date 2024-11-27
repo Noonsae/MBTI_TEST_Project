@@ -1,19 +1,21 @@
 import React, { useContext, useState } from "react";
-import { MyContext } from "../context/MyContext";
+import { AuthContext } from "../context/AuthContext";
 import styled from "styled-components";
 
 const AuthForm = ({ mode, onSubmit }) => {
-  const { setUser } = useContext(MyContext);
+  const { setUser } = useContext(AuthContext);
   const [formData, setFormData] = useState({
     id: "",
     password: "",
     nickname: "",
   });
-  
-  const [ checkPassword, setCheckPassword ] = useState("");
+
+  const [checkPassword, setCheckPassword] = useState("");
   const [errors, setErrors] = useState({});
 
-  const onChangeCheckPassword = (e) => {setCheckPassword(e.target.value)};
+  const onChangeCheckPassword = (e) => {
+    setCheckPassword(e.target.value);
+  };
 
   const validate = (name, value) => {
     let error = "";

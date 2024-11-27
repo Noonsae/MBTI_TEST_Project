@@ -1,13 +1,13 @@
 import { GlobalStyle } from "../styles/GlobalStyled";
-import { MyProvider } from "./context/MyContext";
+
 import Router from "./shared/Router";
 
 const App = () => {
   return (
-    <MyProvider>
+    <AuthProvider>
       <GlobalStyle />
       <Router />
-    </MyProvider>
+    </AuthProvider>
   );
 };
 
