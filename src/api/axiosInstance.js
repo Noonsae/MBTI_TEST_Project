@@ -17,7 +17,6 @@ axiosInstance.interceptors.request.use(
     }
     return config;
   },
-  // 요청 오류 처리
   (error) => {
     console.error("Request Error:", error);
     return Promise.reject(error);
@@ -28,22 +27,19 @@ axiosInstance.interceptors.request.use(
 axiosInstance.interceptors.response.use(
   (response) => {
     console.log("Response:", response);
-    return response.data; // 응답 데이터만 반환
+    return response;
   },
-  // 응답 오류 처리
+
+  // 응답  오류 처리
   (error) => {
     if (error.response) {
-      console.log(
-        "Response Error:",
-        error.response.status,
-        error.response.data
-      );
+      console.log("Response Error:", error.response.status, error.response.data);
     } else {
-      console.error("Error:", error.message);
+      console.error('Error:', error.message);
     }
-    return Promise.reject(error);
+     return Promise.reject(error);
   }
 );
 
-export default axiosInstance;
 
+export default axiosInstance;
