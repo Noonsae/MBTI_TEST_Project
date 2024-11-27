@@ -7,24 +7,33 @@ import styled from "styled-components";
 
 const Login = () => {
   const { setUser } = useContext(MyContext);
-
   const navigate = useNavigate();
-  const handleLogin = async (formData) => {
-    
-    try {
-      const data = await login(formData);
-      if (data.success) {
-        console.log("test");
-        setUser(data.user);
-        localStorage.setItem("user", JSON.stringify(data.user));
-        navigate("/");
-      } else {
-        alert("로그인에 실패했습니다.");
-      }
-    } catch (error) {
-      alert("로그인 중 문제가 발생했습니다.");
-    }
-  };
+
+ const handleLogin = async (formData) => {
+   const { nickname, ...userWithoutNickname } = formData;
+   console.log(userWithoutNickname); // { id: "User ID", password: "User password" }
+   console.log(nickname); // { nickname: "User nickname" }
+
+   try {
+     const data = await login(userWithoutNickname);
+     console.log(data);
+
+     // 성공 여부 검사 및 얼리 리턴 적용
+     if (!data.success) {
+       alert("로그인에 실패했습니다.");
+       return; // 로그인 실패 시 함수 종료
+     }
+
+     // 로그인 성공 시 로직
+     console.log(data.accessToken);
+     setUser(data);
+     localStorage.setItem("accessToken", data.accessToken);
+     navigate("/");
+   } catch (error) {
+     alert("로그인에 실패했습니다. 아이디와 비밀번호를 확인해주세요.");
+     return; // 오류 발생 시 함수 종료
+   }
+ };
 
   return (
     <LoginContainer>
@@ -42,9 +51,8 @@ export default Login;
 const LoginContainer = styled.div`
   width: 30%;
   max-width: 500px;
-  height: 540px;
   margin: 0 auto;
-  padding: 60px 50px;
+  padding: 60px 50px 80px;
 
   position: absolute;
   left: 50%;
@@ -66,7 +74,6 @@ const LoginTitle = styled.h2`
 `;
 
 const SignupText = styled.span`
-  margin-bottom: 10px;
   font-size: 16px;
   color: #777;
 `;
