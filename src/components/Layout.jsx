@@ -30,7 +30,9 @@ const Layout = () => {
           <Outlet />
         </ContentWrap>
       </StMain>
-      <footer></footer>
+      <StFooter>
+        <p>Copyright @ 2024 NoonSae All rights reserved.</p>
+      </StFooter>
     </>
   );
 };
@@ -85,4 +87,14 @@ const ContentWrap = styled.div`
   max-width: 1200px;
   margin: 0 auto;
   padding: 50px;
+`;
+
+const StFooter = styled.footer`
+  width: 100%;
+  height: 150px;
+
+  background-color: #e4f4fd;
+
+  text-align: center;
+  line-height: 150px;
 `;
