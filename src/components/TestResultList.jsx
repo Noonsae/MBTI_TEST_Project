@@ -1,8 +1,9 @@
-import { useAuth } from "../contexts/AuthContext";
+import { useContext } from "react";
+import { AuthContext } from "../context/AuthContext";
 import TestResultItem from "./TestResultItem";
 
 const TestResultList = ({ testResults, setTestResults }) => {
-  const { user } = useAuth();
+  const { user } = useContext(AuthContext);
   const currentUserId = user.userId;
   const handleUpdate = (id, updatedResult) => {
     if (updatedResult === null) {
@@ -19,7 +20,7 @@ const TestResultList = ({ testResults, setTestResults }) => {
   };
 
   return (
-    <div className="flex flex-col space-y-6 w-full max-w-3xl">
+    <div>
       {testResults
         .filter(
           (result) => result.visibility || result.userid === currentUserId
