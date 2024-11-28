@@ -41,13 +41,10 @@ export const calculateMBTI = (answers) => {
   answers.forEach(({ type, answer }) => {
     const [option1, option2] = type.split("/"); // E/I, S/N 등의 유형 분리
 
-    const question = questions.find((q) => q.type === type);
-    const [firstOption, secondOption] = question.options;
-
-    // 답변에 따라 점수 누적
-    if (answer === firstOption) {
+    // 질문에 대한 답변에 따라 점수 누적
+    if (answer === option1) {
       scores[option1]++;
-    } else if (answer === secondOption) {
+    } else if (answer === option2) {
       scores[option2]++;
     }
   });
