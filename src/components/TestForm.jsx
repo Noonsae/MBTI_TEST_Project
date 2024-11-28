@@ -1,9 +1,13 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { questions } from "../data/questions";
 import styled from "styled-components";
+import { calculateMBTI } from "../utils/mbtiCalculator";
+import { AuthContext } from "../context/AuthContext";
 
 const TestForm = () => {
+  const [result, setResult] = useState(null);
   const [answers, setAnswers] = useState({});
+  const { isLoggedIn, user } = useContext(AuthContext);
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
 
   const handleAnswer = (question_Id, data) => {
@@ -25,9 +29,40 @@ const TestForm = () => {
     }
   };
 
-  const handleSubmit = () => {
-    // 제출하기 로직 추가 (예: 서버로 결과 전송 또는 결과 페이지로 이동)
-    console.log("제출된 답변: ", answers);
+  const handleSubmit = async () => {
+    if (!isLoggedIn) {
+      console.error("User is not logged in");
+      alert("로그인 후 테스트를 진행해 주세요.");
+      return;
+    }
+
+    // answers 객체를 배열로 변환 [{type, answer}]
+    const answersArray = Object.entries(answers).map(([questionId, answer]) => {
+      const question = questions.find((q) => q.id === Number(questionId));
+      return {
+        type: question.type,
+        answer: answer,
+      };
+    });
+
+    const mbtiResult = calculateMBTI(answersArray);
+    setResult(mbtiResult); // 상태에 결과 저장
+
+    try {
+      const resultPayload = {
+        userid: user.Id, // 여기서 user가 undefined일 가능성 확인
+        username: user.nickname,
+        mbti: mbtiResult,
+        description: mbtiDescriptions[mbtiResult],
+        createdAt: new Date().toISOString(),
+        visibility: true, // 기본값: 공개
+      };
+
+      await createTestResult(resultPayload);
+      navigate("/results");
+    } catch (error) {
+      console.error("Error saving test result:", error);
+    }
   };
 
   return (
