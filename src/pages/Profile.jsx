@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { toast } from "react-toastify";
-import { getProfile, updateProfile } from "../api/auth";
+import { getUserProfile, updateProfile } from "../api/auth";
 
 const Profile = () => {
   const [nickname, setNickname] = useState("");
@@ -10,7 +10,7 @@ const Profile = () => {
   useEffect(() => {
     const fetchProfile = async () => {
       try {
-        const profile = await getProfile(); // getProfile 함수 호출
+        const profile = await getUserProfile(); // getProfile 함수 호출
         setNickname(profile.nickname); // 닉네임 설정
       } catch (error) {
         console.error("Failed to load profile:", error);
