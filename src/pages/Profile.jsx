@@ -10,11 +10,10 @@ const Profile = () => {
   useEffect(() => {
     const fetchProfile = async () => {
       try {
-        const profile = await getUserProfile(); // getProfile 함수 호출
-        setNickname(profile.nickname); // 닉네임 설정
+        const profile = await getUserProfile();
+        setNickname(profile.nickname);
       } catch (error) {
-        console.error("Failed to load profile:", error);
-        toast.error("프로필 정보를 불러오지 못했습니다.");
+        handleProfileError(error, "프로필 정보를 불러오지 못했습니다.");
       }
     };
     fetchProfile();
@@ -23,31 +22,44 @@ const Profile = () => {
   // 닉네임 업데이트 함수
   const handleUpdate = async (e) => {
     e.preventDefault();
-    setLoading(true); // 로딩 상태 활성화
+    setLoading(true);
 
     try {
-      const user = JSON.parse(localStorage.getItem("user")); // 사용자 정보 가져오기
+      const user = getUserFromLocalStorage();
       if (!user) {
         toast.error("로그인이 필요합니다.");
         return;
       }
 
-      // 닉네임 업데이트
       const updatedProfile = await updateProfile(nickname);
-
-      // 로컬 스토리지 사용자 정보 업데이트
-      const updatedUser = { ...user, nickname: updatedProfile.nickname };
-      localStorage.setItem("user", JSON.stringify(updatedUser));
+      updateUserInLocalStorage({ ...user, nickname: updatedProfile.nickname });
       toast.success("프로필이 성공적으로 업데이트되었습니다!");
     } catch (error) {
-      console.error(
-        "프로필 업데이트 실패:",
-        error.response?.data || error.message
-      );
-      toast.error("프로필 업데이트에 실패했습니다.");
+      handleProfileError(error, "프로필 업데이트에 실패했습니다.");
     } finally {
-      setLoading(false); // 로딩 상태 비활성화
+      setLoading(false);
     }
+  };
+
+  // 로컬 스토리지에서 사용자 정보 가져오기
+  const getUserFromLocalStorage = () => {
+    try {
+      return JSON.parse(localStorage.getItem("user"));
+    } catch (error) {
+      console.error("Failed to parse user from localStorage:", error);
+      return null;
+    }
+  };
+
+  // 로컬 스토리지 사용자 정보 업데이트
+  const updateUserInLocalStorage = (updatedUser) => {
+    localStorage.setItem("user", JSON.stringify(updatedUser));
+  };
+
+  // 프로필 오류 처리 함수
+  const handleProfileError = (error, message) => {
+    console.error(message, error.response?.data || error.message);
+    toast.error(message);
   };
 
   return (
